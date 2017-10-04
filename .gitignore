@@ -1,0 +1,15 @@
+.gradletasknamecache
+.gradle/
+build/
+bin/
+*.jar
+*.war
+*/build/*
+*/out/*
+.DS_Store
+*.class
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
