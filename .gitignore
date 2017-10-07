@@ -1,5 +1,6 @@
 .gradletasknamecache
 .gradle/
+!gradle-wrapper.jar
 build/
 bin/
 *.jar
