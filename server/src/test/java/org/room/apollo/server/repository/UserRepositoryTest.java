@@ -47,7 +47,7 @@ public class UserRepositoryTest {
         /*Get all users, list should only have two*/
         Iterable<User> users = mongoRepository.findAll();
         int count = 0;
-        for(User _ : users){
+        for(User u : users){
             count++;
         }
         assertEquals(count, 2);

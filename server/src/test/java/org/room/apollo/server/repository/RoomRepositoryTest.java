@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -29,13 +30,14 @@ public class RoomRepositoryTest {
     private String TEST_EMAIL_1 = "1@mail.ru";
     private String TEST_EMAIL_2 = "2@mail.ru";
     private String PASSWORD = "password";
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
         User user1 = new User("login",PASSWORD,TEST_EMAIL_1);
         User user2 = new User("name",PASSWORD,TEST_EMAIL_2);
-        users = com.sun.tools.javac.util.List.of(user1,user2);
+        users.add(user1);
+        users.add(user2);
         Room room = new Room("test", users , null);
         assertNull(room.getId());//null before save
         this.mongoRepository.save(room);
