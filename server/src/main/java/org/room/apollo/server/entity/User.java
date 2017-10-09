@@ -1,44 +1,33 @@
 package org.room.apollo.server.entity;
 
-/**
- * Created by Alexey on 10/5/17.
- */
-public class User {
-    private int id;
-    private String permalink;
-    private String username;
-    private String uri;
-    private String permalinkUri;
-    private String avatarUrl;
-    private String country;
-    private String fullName;
-    private String city;
-    private String description;
-    private String discogsName;
-    private String mySpaceName;
-    private String website;
-    private String websiteTitile;
-    private boolean online;
-    private int trackCount;
-    private int playlistCount;
-    private int followersCount;
-    private int followingsCount;
-    private int favoritesCount;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-    public int getId() {
+/**
+ * Created by Alexey on 10/8/17.
+ */
+@Document(collection = "users")
+public class User {
+    @Id
+    private String id;
+    @Indexed(unique = true)
+    private String username;
+    private String password;
+    private String email;
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getPermalink() {
-        return permalink;
-    }
-
-    public void setPermalink(String permalink) {
-        this.permalink = permalink;
     }
 
     public String getUsername() {
@@ -49,139 +38,19 @@ public class User {
         this.username = username;
     }
 
-    public String getUri() {
-        return uri;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getPermalinkUri() {
-        return permalinkUri;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPermalinkUri(String permalinkUri) {
-        this.permalinkUri = permalinkUri;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDiscogsName() {
-        return discogsName;
-    }
-
-    public void setDiscogsName(String discogsName) {
-        this.discogsName = discogsName;
-    }
-
-    public String getMySpaceName() {
-        return mySpaceName;
-    }
-
-    public void setMySpaceName(String mySpaceName) {
-        this.mySpaceName = mySpaceName;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getWebsiteTitile() {
-        return websiteTitile;
-    }
-
-    public void setWebsiteTitile(String websiteTitile) {
-        this.websiteTitile = websiteTitile;
-    }
-
-    public boolean isOnline() {
-        return online;
-    }
-
-    public void setOnline(boolean online) {
-        this.online = online;
-    }
-
-    public int getTrackCount() {
-        return trackCount;
-    }
-
-    public void setTrackCount(int trackCount) {
-        this.trackCount = trackCount;
-    }
-
-    public int getPlaylistCount() {
-        return playlistCount;
-    }
-
-    public void setPlaylistCount(int playlistCount) {
-        this.playlistCount = playlistCount;
-    }
-
-    public int getFollowersCount() {
-        return followersCount;
-    }
-
-    public void setFollowersCount(int followersCount) {
-        this.followersCount = followersCount;
-    }
-
-    public int getFollowingsCount() {
-        return followingsCount;
-    }
-
-    public void setFollowingsCount(int followingsCount) {
-        this.followingsCount = followingsCount;
-    }
-
-    public int getFavoritesCount() {
-        return favoritesCount;
-    }
-
-    public void setFavoritesCount(int favoritesCount) {
-        this.favoritesCount = favoritesCount;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

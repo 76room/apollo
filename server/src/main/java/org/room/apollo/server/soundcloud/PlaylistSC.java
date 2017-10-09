@@ -1,9 +1,9 @@
-package org.room.apollo.server.entity;
+package org.room.apollo.server.soundcloud;
 
 /**
  * Created by Alexey on 10/5/17.
  */
-public class Playlist extends BaseSoundType {
+public class PlaylistSC extends BaseSoundType {
     private String ean;
     private Type type;
 

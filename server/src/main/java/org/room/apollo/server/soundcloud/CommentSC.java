@@ -1,18 +1,18 @@
-package org.room.apollo.server.entity;
+package org.room.apollo.server.soundcloud;
 
 import java.util.Date;
 
 /**
  * Created by Alexey on 10/5/17.
  */
-public class Comment {
+public class CommentSC {
     private int id;
     private String uri;
     private Date createdAt;
     private String body;
     private long timestamp;
     private int userId;
-    private User user;
+    private UserSC user;
     private int TrackId;
 
     public int getId() {
@@ -63,11 +63,11 @@ public class Comment {
         this.userId = userId;
     }
 
-    public User getUser() {
+    public UserSC getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserSC user) {
         this.user = user;
     }
 

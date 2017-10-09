@@ -1,4 +1,4 @@
-package org.room.apollo.server.entity;
+package org.room.apollo.server.soundcloud;
 
 import java.util.Date;
 
@@ -9,13 +9,13 @@ public abstract class BaseSoundType {
     private int id;
     private Date createdAt;
     private int userId;
-    private User user;
+    private UserSC user;
     private String title;
     private String permalink;
     private String permalinkUrl;
     private String uri;
-    private Track.Sharing sharing;
-    private Track.EmbeddableBy embeddableBy;
+    private TrackSC.Sharing sharing;
+    private TrackSC.EmbeddableBy embeddableBy;
     private String purchaseUrl;
     private String atworkUrl;
     private String description;
@@ -63,11 +63,11 @@ public abstract class BaseSoundType {
         this.userId = userId;
     }
 
-    public User getUser() {
+    public UserSC getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserSC user) {
         this.user = user;
     }
 
@@ -103,19 +103,19 @@ public abstract class BaseSoundType {
         this.uri = uri;
     }
 
-    public Track.Sharing getSharing() {
+    public TrackSC.Sharing getSharing() {
         return sharing;
     }
 
-    public void setSharing(Track.Sharing sharing) {
+    public void setSharing(TrackSC.Sharing sharing) {
         this.sharing = sharing;
     }
 
-    public Track.EmbeddableBy getEmbeddableBy() {
+    public TrackSC.EmbeddableBy getEmbeddableBy() {
         return embeddableBy;
     }
 
-    public void setEmbeddableBy(Track.EmbeddableBy embeddableBy) {
+    public void setEmbeddableBy(TrackSC.EmbeddableBy embeddableBy) {
         this.embeddableBy = embeddableBy;
     }
 
