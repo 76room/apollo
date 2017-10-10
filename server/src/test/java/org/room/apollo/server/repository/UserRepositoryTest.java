@@ -32,8 +32,8 @@ public class UserRepositoryTest {
         User user2 = new User("name",PASSWORD,TEST_EMAIL_2);
         assertNull(user1.getId());//null before save
         assertNull(user2.getId());//null before save
-        this.mongoRepository.save(user1);
-        this.mongoRepository.save(user2);
+        mongoRepository.save(user1);
+        mongoRepository.save(user2);
         assertNotNull(user1.getId());
         assertNotNull(user2.getId());
     }

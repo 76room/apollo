@@ -27,6 +27,9 @@ public class RoomRepositoryTest {
     @Autowired
     private RoomRepository mongoRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private String TEST_EMAIL_1 = "1@mail.ru";
     private String TEST_EMAIL_2 = "2@mail.ru";
     private String PASSWORD = "password";
@@ -38,10 +41,12 @@ public class RoomRepositoryTest {
         User user2 = new User("name",PASSWORD,TEST_EMAIL_2);
         users.add(user1);
         users.add(user2);
+        userRepository.save(user1);
+        userRepository.save(user2);
         Room room = new Room("test", users , null);
         assertNull(room.getId());//null before save
-        this.mongoRepository.save(room);
-        assertNotNull(room);
+        mongoRepository.save(room);
+        assertNotNull(room.getId());
     }
 
     @Test
@@ -62,13 +67,15 @@ public class RoomRepositoryTest {
         Room first = mongoRepository.findRoomByTitle("test");
         first.setTitle(newName);
         mongoRepository.save(first);
-        Room second = mongoRepository.findRoomByTitle("test");
+        Room second = mongoRepository.findRoomByTitle("updated");
+        System.out.println(second);
         assertNotNull(second);
         assertEquals(newName, second.getTitle());
     }
 
     @After
     public void tearDown() throws Exception {
-        this.mongoRepository.deleteAll();
+        mongoRepository.deleteAll();
+        userRepository.deleteAll();
     }
 }
