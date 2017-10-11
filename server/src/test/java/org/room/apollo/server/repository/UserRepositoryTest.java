@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by Alexey on 10/7/17.
@@ -45,12 +49,8 @@ public class UserRepositoryTest {
         assertNotNull(user);
         assertEquals(user.getUsername(),"login");
         /*Get all users, list should only have two*/
-        Iterable<User> users = mongoRepository.findAll();
-        int count = 0;
-        for(User u : users){
-            count++;
-        }
-        assertEquals(count, 2);
+        List<User> users = mongoRepository.findAll();
+        assertEquals(users.size(), 2);
     }
 
     @Test

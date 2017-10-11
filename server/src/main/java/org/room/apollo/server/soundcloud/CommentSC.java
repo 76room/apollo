@@ -1,5 +1,6 @@
 package org.room.apollo.server.soundcloud;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
 public class CommentSC {
     private int id;
     private String uri;
-    private Date createdAt;
+    private LocalDate createdAt;
     private String body;
     private long timestamp;
     private int userId;
@@ -31,11 +32,11 @@ public class CommentSC {
         this.uri = uri;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 

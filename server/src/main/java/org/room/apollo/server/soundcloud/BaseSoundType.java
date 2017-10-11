@@ -1,5 +1,6 @@
 package org.room.apollo.server.soundcloud;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  */
 public abstract class BaseSoundType {
     private int id;
-    private Date createdAt;
+    private LocalDate createdAt;
     private int userId;
     private UserSC user;
     private String title;
@@ -17,7 +18,7 @@ public abstract class BaseSoundType {
     private TrackSC.Sharing sharing;
     private TrackSC.EmbeddableBy embeddableBy;
     private String purchaseUrl;
-    private String atworkUrl;
+    private String artworkUrl;
     private String description;
     private String label;
     private long duration;
@@ -26,17 +27,16 @@ public abstract class BaseSoundType {
     private int labelId;
     private String labelName;
     private int release;
-    private int releaseDay;
-    private int releaseMounth;
-    private int releaseYear;
+    private LocalDate releaseDate;
     private boolean streamable;
     private boolean downloadable;
 
-    public enum Sharing{
+    public enum Sharing {
         PUBLIC, PRIVATE
     }
-    public enum EmbeddableBy{
-        ME,ALL,NONE
+
+    public enum EmbeddableBy {
+        ME, ALL, NONE
     }
 
     public int getId() {
@@ -47,11 +47,11 @@ public abstract class BaseSoundType {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -127,12 +127,12 @@ public abstract class BaseSoundType {
         this.purchaseUrl = purchaseUrl;
     }
 
-    public String getAtworkUrl() {
-        return atworkUrl;
+    public String getArtworkUrl() {
+        return artworkUrl;
     }
 
-    public void setAtworkUrl(String atworkUrl) {
-        this.atworkUrl = atworkUrl;
+    public void setArtworkUrl(String artworkUrl) {
+        this.artworkUrl = artworkUrl;
     }
 
     public String getDescription() {
@@ -199,28 +199,12 @@ public abstract class BaseSoundType {
         this.release = release;
     }
 
-    public int getReleaseDay() {
-        return releaseDay;
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setReleaseDay(int releaseDay) {
-        this.releaseDay = releaseDay;
-    }
-
-    public int getReleaseMounth() {
-        return releaseMounth;
-    }
-
-    public void setReleaseMounth(int releaseMounth) {
-        this.releaseMounth = releaseMounth;
-    }
-
-    public int getReleaseYear() {
-        return releaseYear;
-    }
-
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public boolean isStreamable() {

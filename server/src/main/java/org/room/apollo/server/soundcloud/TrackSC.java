@@ -12,13 +12,13 @@ public class TrackSC extends BaseSoundType{
     private String streamUrl;
     private String videoUrl;
     private int bmp;
-    private boolean commentable;
+    private boolean commendable;
     private String isrc;
     private String keySign;
     private int commentsCount;
     private int downloadCount;
     private int playbackCount;
-    private int favoritingsCount;
+    private int favoritesCount;
     private String originalFormat;
     private String originalContentSize;
     //asset_data, artwork_data
@@ -95,12 +95,12 @@ public class TrackSC extends BaseSoundType{
         this.bmp = bmp;
     }
 
-    public boolean isCommentable() {
-        return commentable;
+    public boolean isCommendable() {
+        return commendable;
     }
 
-    public void setCommentable(boolean commentable) {
-        this.commentable = commentable;
+    public void setCommendable(boolean commendable) {
+        this.commendable = commendable;
     }
 
     public String getIsrc() {
@@ -143,12 +143,12 @@ public class TrackSC extends BaseSoundType{
         this.playbackCount = playbackCount;
     }
 
-    public int getFavoritingsCount() {
-        return favoritingsCount;
+    public int getFavoritesCount() {
+        return favoritesCount;
     }
 
-    public void setFavoritingsCount(int favoritingsCount) {
-        this.favoritingsCount = favoritingsCount;
+    public void setFavoritesCount(int favoritesCount) {
+        this.favoritesCount = favoritesCount;
     }
 
     public String getOriginalFormat() {

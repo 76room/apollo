@@ -1,7 +1,5 @@
 package org.room.apollo.server.soundcloud;
 
-import org.springframework.data.annotation.Id;
-
 /**
  * Created by Alexey on 10/5/17.
  */
@@ -19,7 +17,7 @@ public class UserSC {
     private String discogsName;
     private String mySpaceName;
     private String website;
-    private String websiteTitile;
+    private String websiteTitle;
     private boolean online;
     private int trackCount;
     private int playlistCount;
@@ -131,12 +129,12 @@ public class UserSC {
         this.website = website;
     }
 
-    public String getWebsiteTitile() {
-        return websiteTitile;
+    public String getWebsiteTitle() {
+        return websiteTitle;
     }
 
-    public void setWebsiteTitile(String websiteTitile) {
-        this.websiteTitile = websiteTitile;
+    public void setWebsiteTitle(String websiteTitle) {
+        this.websiteTitle = websiteTitle;
     }
 
     public boolean isOnline() {
