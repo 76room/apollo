@@ -3,7 +3,7 @@ package org.room.apollo.server.soundcloud;
 /**
  * Created by Alexey on 10/5/17.
  */
-public class TrackSC extends BaseSoundType{
+public class TrackSC extends BaseSoundType {
     private State state;
     private String license;
     private Type type;
@@ -24,11 +24,12 @@ public class TrackSC extends BaseSoundType{
     //asset_data, artwork_data
     private boolean userFavorite;
 
-    public enum State{
-        PROCESSING,FAILED,FINISHED
+    public enum State {
+        PROCESSING, FAILED, FINISHED
     }
-    public enum Type{
-        ORIGINAL, REMIX, LIVE, RECORDING, SPOKEN, PODCAST,INPROGRESS, STEM, LOOP, SOUND_EFFECT, SAMPLE, OTHER
+
+    public enum Type {
+        ORIGINAL, REMIX, LIVE, RECORDING, SPOKEN, PODCAST, INPROGRESS, STEM, LOOP, SOUND_EFFECT, SAMPLE, OTHER
     }
 
     public State getState() {

@@ -7,8 +7,8 @@ public class PlaylistSC extends BaseSoundType {
     private String ean;
     private Type type;
 
-    public enum Type{
-        EP_SINGLE,ALBUM,COMPILATION,PROJECT_FILES,SHOWCASE,DEMO,SAMPLE_PACK,OTHER
+    public enum Type {
+        EP_SINGLE, ALBUM, COMPILATION, PROJECT_FILES, SHOWCASE, DEMO, SAMPLE_PACK, OTHER
     }
 
     public String getEan() {
