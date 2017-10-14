@@ -3,6 +3,7 @@ package org.room.apollo.server.controller;
 import org.room.apollo.server.dto.ExceptionResponse;
 import org.room.apollo.server.dto.deezer.DeezerToken;
 import org.room.apollo.server.service.AuthorizationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class AuthorizationController {
 
     private AuthorizationService authorizationService;
 
+    @Autowired
     public AuthorizationController(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
     }

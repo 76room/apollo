@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
 import org.room.apollo.server.util.HttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class AuthorizationService {
     
     private HttpUtil httpUtil;
 
+    @Autowired
     public AuthorizationService(DeezerConfiguration deezerConfiguration, HttpUtil httpUtil) {
         this.deezerConfiguration = deezerConfiguration;
         this.httpUtil = httpUtil;
