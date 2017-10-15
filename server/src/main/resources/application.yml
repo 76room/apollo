@@ -1,13 +1,11 @@
 # General options for all profiles.
 spring:
-  data:
-    mongodb:
-      uri: mongodb://apollo-client:apollo-password@cluster0-shard-00-00-lvqvs.mongodb.net:27017,cluster0-shard-00-01-lvqvs.mongodb.net:27017,cluster0-shard-00-02-lvqvs.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin
   session:
     store-type: hash_map
   profiles:
     active: development #Change this value to production when before building deploying artifact.
-
+  config:
+    location:
 security:
   basic:
     enabled: false
@@ -17,18 +15,14 @@ security:
 spring:
     profiles: production
 deezer:
-  app_id: 256182
   redirect_url: http://api.76room.tk/signin/deezer/step2
   perms: basic_access,email,offline_access,manage_library,listening_history
-  secret: 0d2add8eacf4a40babfefc7131f6a438
 
 ---
 #Development settings.
 spring:
     profiles: development
 deezer:
-  app_id: 256162
   redirect_url: http://127.0.0.1:8080/signin/deezer/step2
   perms: basic_access,email,offline_access,manage_library,listening_history
-  secret: 14eeb3dbfebcd8a6dc42cce5a464e323
 

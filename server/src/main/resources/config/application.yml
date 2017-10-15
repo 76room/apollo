@@ -1,0 +1,21 @@
+# General options for all profiles.
+spring:
+  data:
+    mongodb:
+      uri: mongodb://apollo-client:apollo-password@cluster0-shard-00-00-lvqvs.mongodb.net:27017,cluster0-shard-00-01-lvqvs.mongodb.net:27017,cluster0-shard-00-02-lvqvs.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin
+---
+#Production settings.
+spring:
+    profiles: production
+deezer:
+  app_id: 256182
+  secret: 0d2add8eacf4a40babfefc7131f6a438
+
+---
+#Development settings.
+spring:
+    profiles: development
+deezer:
+  app_id: 256162
+  secret: 14eeb3dbfebcd8a6dc42cce5a464e323
+
