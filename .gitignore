@@ -14,5 +14,5 @@ bin/
 *.ipr
 *.iws
 .idea/
-#sensetive infog
-config/application.yml
+# sensetive info
+**/config/application.yml
