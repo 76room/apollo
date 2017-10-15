@@ -1,14 +1,13 @@
 package org.room.apollo.server.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
-import org.room.apollo.server.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,13 +20,13 @@ import java.net.URISyntaxException;
 public class AuthorizationService {
 
     private DeezerConfiguration deezerConfiguration;
-    
-    private HttpUtil httpUtil;
+
+    private RestTemplate template;
 
     @Autowired
-    public AuthorizationService(DeezerConfiguration deezerConfiguration, HttpUtil httpUtil) {
+    public AuthorizationService(DeezerConfiguration deezerConfiguration, RestTemplate template) {
         this.deezerConfiguration = deezerConfiguration;
-        this.httpUtil = httpUtil;
+        this.template = template;
     }
 
     /**
@@ -56,19 +55,17 @@ public class AuthorizationService {
      *
      * @param code deezer code.
      * @return access token.
-     * @throws IOException if it happens.
      */
     public DeezerToken getDeezerAccessToken(String code) throws IOException {
-        String url = String.format("https://connect.deezer.com/oauth/access_token.php" +
-                        "?app_id=%s" +
-                        "&secret=%s" +
-                        "&code=%s" +
-                        "&output=json",
+        String url = "https://connect.deezer.com/oauth/access_token.php" +
+                "?app_id={app_id}" +
+                "&secret={secret}" +
+                "&code={code}" +
+                "&output=json";
+        return template.getForObject(url,
+                DeezerToken.class,
                 deezerConfiguration.getAppId(),
                 deezerConfiguration.getSecret(),
                 code);
-        String jsonResponse = httpUtil.doGet(url);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(jsonResponse, DeezerToken.class);
-        }
+    }
 }

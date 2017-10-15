@@ -5,30 +5,30 @@ import org.junit.Before;
 import org.junit.Test;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
-import org.room.apollo.server.util.HttpUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 
 public class AuthorizationServiceTest {
 
     private AuthorizationService authorizationService;
 
-    private DeezerConfiguration mockConfigs;
+    private RestTemplate mockTemplate;
 
-    private HttpUtil mockHttp;
+    private DeezerConfiguration mockConfigs;
 
     @Before
     public void reInit() {
-        mockConfigs = spy(DeezerConfiguration.class);
-        mockHttp = mock(HttpUtil.class);
-        authorizationService = new AuthorizationService(mockConfigs, mockHttp);
+        mockConfigs = mock(DeezerConfiguration.class);
+        mockTemplate = mock(RestTemplate.class);
+        authorizationService = new AuthorizationService(mockConfigs, mockTemplate);
     }
 
     @Test
@@ -54,12 +54,14 @@ public class AuthorizationServiceTest {
 
     @Test
     public void testGetDeezerAccessToken_ReturnDeezerToken_ForValidJson() throws IOException {
-        doReturn("{\n" +
-                "  \"access_token\": \"mock token\",\n" +
-                "  \"expires\": 11\n" +
-                "}").when(mockHttp).doGet(anyString());
+        doReturn("appId").when(mockConfigs).getAppId();
+        doReturn("secret").when(mockConfigs).getSecret();
+        doReturn(new DeezerToken("mock token", 11))
+                .when(mockTemplate)
+                .getForObject(anyString(), eq(DeezerToken.class),
+                        eq("appId"), eq("secret"), eq("code"));
         DeezerToken expected = new DeezerToken("mock token", 11);
-        Assert.assertEquals(authorizationService.getDeezerAccessToken("whatever"), expected);
+        Assert.assertEquals(authorizationService.getDeezerAccessToken("code"), expected);
 
 
     }
