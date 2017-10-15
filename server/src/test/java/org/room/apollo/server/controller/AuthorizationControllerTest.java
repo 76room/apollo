@@ -51,23 +51,10 @@ public class AuthorizationControllerTest {
     @Test
     public void testThatSigninWithDeezer_OnStep2_ReturnBadRequestAndError_InCaseOfErrorParameter() throws Exception {
         mockMvc.perform(get("/signin/deezer/step2").param("error_reason", "error mock"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isForbidden())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(content().json("{\n" +
                         "  \"message\" : \"error mock\"\n" +
-                        "  }"));
-    }
-
-    @Test
-    public void testThatSigninWithDeezer_OnStep2_ReturnBadRequestAndError_InCaseOfIoException() throws Exception {
-        doThrow(new IOException("Mock IO exception"))
-                .when(authorizationService).getDeezerAccessToken("mock");
-
-        mockMvc.perform(get("/signin/deezer/step2").param("code", "mock"))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(content().json("{\n" +
-                        "  \"message\" : \"Mock IO exception\"\n" +
                         "  }"));
     }
 }

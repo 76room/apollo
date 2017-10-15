@@ -56,7 +56,7 @@ public class AuthorizationService {
      * @param code deezer code.
      * @return access token.
      */
-    public DeezerToken getDeezerAccessToken(String code) throws IOException {
+    public DeezerToken getDeezerAccessToken(String code) {
         String url = "https://connect.deezer.com/oauth/access_token.php" +
                 "?app_id={app_id}" +
                 "&secret={secret}" +

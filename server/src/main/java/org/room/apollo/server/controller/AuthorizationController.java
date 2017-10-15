@@ -63,14 +63,10 @@ public class AuthorizationController {
             @RequestParam(name = "error_reason", required = false) String error,
             @RequestParam(name = "redirect_uri", required = false) String redirect_uri) {
         if (error != null) {
-            return new ResponseEntity<>(new ExceptionResponse(error), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ExceptionResponse(error), HttpStatus.FORBIDDEN);
         }
-        try {
-            DeezerToken token = authorizationService.getDeezerAccessToken(code);
-            session.setAttribute("deezerToken", token);
-            return new ResponseEntity<>(token, HttpStatus.OK);
-        } catch (IOException e) {
-            return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+        DeezerToken token = authorizationService.getDeezerAccessToken(code);
+        session.setAttribute("deezerToken", token);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
