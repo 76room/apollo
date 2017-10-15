@@ -1,7 +1,6 @@
-package org.room.apollo.server.soundcloud;
+package org.room.apollo.server.dto.soundcloud;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Alexey on 10/5/17.

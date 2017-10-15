@@ -1,4 +1,4 @@
-.gradletasknamecache
+.radletasknamecache
 .gradle/
 !gradle-wrapper.jar
 build/
@@ -14,3 +14,5 @@ bin/
 *.ipr
 *.iws
 .idea/
+# sensetive info
+**/config/application.yml

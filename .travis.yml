@@ -3,4 +3,11 @@ language: java
 jdk:
   - oraclejdk8
   
-before_install: cd server
+before_install:
+  - sudo apt-get install libffi-dev libssl-dev
+  - sudo pip install -U requests[security]
+  - sudo pip install awscli
+  - mkdir server/src/main/resources/config	
+  - touch server/src/main/resources/config/application.yml
+  - aws s3 cp $S3_URI server/src/main/resources/config/application.yml
+  - cd server
