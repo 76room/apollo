@@ -1,7 +1,10 @@
 package org.room.apollo.server.service;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
+import org.room.apollo.server.dto.deezer.DeezerUser;
+import org.room.apollo.server.dto.registration.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,15 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import static org.room.apollo.server.utils.UserValidationConstants.MAX_USERNAME_LENGTH;
+import static org.room.apollo.server.utils.UserValidationConstants.MIN_USERNAME_LENGTH;
+import static org.room.apollo.server.utils.UserValidationConstants.USERNAME_REGEXP;
 
 /**
  * Service for authorization methods.
  */
 @Service
 public class AuthorizationService {
+
+    public static final int GENERATED_PASSWORD_LENGTH = 30;
 
     private DeezerConfiguration deezerConfiguration;
 
@@ -67,5 +75,29 @@ public class AuthorizationService {
                 deezerConfiguration.getAppId(),
                 deezerConfiguration.getSecret(),
                 code);
+    }
+
+    public RegistrationForm getUserDataFromDeezerApi(DeezerToken token) {
+        String url = "https://api.deezer.com/user/me" +
+                "?access_token=" + token.getAccessToken() +
+                "&output=json";
+        DeezerUser user = template.getForObject(url, DeezerUser.class);
+        return new RegistrationForm(user.getName(), generatePassword(GENERATED_PASSWORD_LENGTH), user.getEmail());
+    }
+
+    public String generatePassword(int length) {
+        return RandomStringUtils.random(length, true, true);
+    }
+
+    public boolean normalizeUsername(RegistrationForm user) {
+        String username = user.getUsername();
+        if (username == null || !username.matches(USERNAME_REGEXP)
+                ||
+                username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
+            username = RandomStringUtils.random(15, true, true);
+            user.setUsername(username);
+            return false;
+        }
+        return true;
     }
 }

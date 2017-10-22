@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.room.apollo.server.dto.deezer.DeezerToken;
+import org.room.apollo.server.dto.registration.RegistrationForm;
 import org.room.apollo.server.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,7 +32,7 @@ public class AuthorizationControllerTest {
     private AuthorizationService authorizationService;
 
     @Test
-    public void testThatSigninWithDeezer_OnStep2_ReturnTokenAndPutInSession_IfNoErrors() throws Exception {
+    public void testThatSigninWithDeezer_OnStep2_PutTokenInSession_IfNoErrors() throws Exception {
         DeezerToken token = new DeezerToken("tokenMock", 10);
         doReturn(token)
                 .when(authorizationService).getDeezerAccessToken("mock");
@@ -39,12 +40,8 @@ public class AuthorizationControllerTest {
         MockHttpSession session = new MockHttpSession();
 
         mockMvc.perform(get("/signin/deezer/step2").param("code", "mock").session(session))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(content().json("{ \n" +
-                        "  \"expires\" : 10,\n" +
-                        "  \"access_token\" : \"tokenMock\"\n" +
-                        "}"));
+                .andExpect(status().is(302));
+
         Assert.assertEquals(session.getAttribute("deezerToken"), token);
     }
 
@@ -56,5 +53,55 @@ public class AuthorizationControllerTest {
                 .andExpect(content().json("{\n" +
                         "  \"message\" : \"error mock\"\n" +
                         "  }"));
+    }
+
+    @Test
+    public void testThatSigninWithDeezer_OnStep3_ReturnUserData_IfTokenInSession() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("deezerToken", new DeezerToken("token", 0));
+        RegistrationForm user = new RegistrationForm("username", "password", "email");
+        doReturn(user).when(authorizationService).getUserDataFromDeezerApi(new DeezerToken("token", 0));
+        doReturn(true).when(authorizationService).normalizeUsername(user);
+        mockMvc.perform(get("/signin/deezer/step3").session(session))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(content().json("[\n" +
+                        "  [],\n" +
+                        "  {\n" +
+                        "    \"email\": \"email\",\n" +
+                        "    \"username\": \"username\",\n" +
+                        "    \"password\": \"password\"\n" +
+                        "  }\n" +
+                        "]"));
+    }
+
+    @Test
+    public void testThatSigninWithDeezer_OnStep3_AddRequestForChangeUsername_IfUsernameIsNotValid() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("deezerToken", new DeezerToken("token", 0));
+        RegistrationForm user = new RegistrationForm("username", "password", "email");
+        doReturn(user).when(authorizationService).getUserDataFromDeezerApi(new DeezerToken("token", 0));
+        doReturn(false).when(authorizationService).normalizeUsername(user);
+        mockMvc.perform(get("/signin/deezer/step3").session(session))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(content().json("[\n" +
+                        "  [\"Request for change username\"],\n" +
+                        "  {\n" +
+                        "    \"email\": \"email\",\n" +
+                        "    \"username\": \"username\",\n" +
+                        "    \"password\": \"password\"\n" +
+                        "  }\n" +
+                        "]"));
+    }
+
+    @Test
+    public void testThatSigninWithDeezer_OnStep3_ReturnError_IfNoTokeInSession() throws Exception {
+        mockMvc.perform(get("/signin/deezer/step3"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("{\n" +
+                        "  \"message\": \"Cant register user.\"\n" +
+                        "}"));
+
     }
 }

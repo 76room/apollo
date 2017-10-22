@@ -1,10 +1,13 @@
 package org.room.apollo.server.service;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
+import org.room.apollo.server.dto.deezer.DeezerUser;
+import org.room.apollo.server.dto.registration.RegistrationForm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -62,7 +65,35 @@ public class AuthorizationServiceTest {
                         eq("appId"), eq("secret"), eq("code"));
         DeezerToken expected = new DeezerToken("mock token", 11);
         Assert.assertEquals(authorizationService.getDeezerAccessToken("code"), expected);
+    }
 
+    @Test
+    public void getUserDataFromDeezerApi_IsReturningRegistrationForm_WithGeneratedPassword() {
+        doReturn(new DeezerUser("username", "email"))
+                .when(mockTemplate)
+                .getForObject(anyString(), eq(DeezerUser.class));
+        RegistrationForm userData = authorizationService.getUserDataFromDeezerApi(new DeezerToken("token", 0));
+        Assert.assertEquals("username", userData.getUsername());
+        Assert.assertEquals("email", userData.getEmail());
+        Assert.assertEquals(30, userData.getPassword().length());
+    }
 
+    @Test
+    public void normalizeUsername_returnTrueIfUsernameIsValid() {
+        RegistrationForm user = new RegistrationForm();
+        user.setUsername("valid");
+        Assert.assertTrue(authorizationService.normalizeUsername(user));
+    }
+
+    @Test
+    public void normalizeUsername_returnFalseIfUsernameIsInValid() {
+        RegistrationForm user = new RegistrationForm();
+        Assert.assertFalse(authorizationService.normalizeUsername(user));
+        user.setUsername("tiny");
+        Assert.assertFalse(authorizationService.normalizeUsername(user));
+        user.setUsername("!invalid!");
+        Assert.assertFalse(authorizationService.normalizeUsername(user));
+        user.setUsername("too_long_11111111111111111111111111111");
+        Assert.assertFalse(authorizationService.normalizeUsername(user));
     }
 }
