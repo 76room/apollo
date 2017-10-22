@@ -28,10 +28,10 @@ public class RegistrationService {
      */
     @Transactional
     public boolean isUsernameAndEmaillFree(RegistrationForm form) throws RegistrationException {
-        if (repository.findUserByEmail(form.getEmail()) == null) {
+        if (repository.findUserByEmail(form.getEmail()) != null) {
             throw new RegistrationException("Email is already taken by another user.");
         }
-        if (repository.findUserByUsername(form.getUsername()) == null) {
+        if (repository.findUserByUsername(form.getUsername()) != null) {
             throw new RegistrationException("Username is already taken by another user.");
         }
         return true;

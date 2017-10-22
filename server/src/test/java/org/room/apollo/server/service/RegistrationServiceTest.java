@@ -31,8 +31,8 @@ public class RegistrationServiceTest {
 
     @Test
     public void isUsernameAndEmailFree_ReturnTrue_IfNoSuchUsernameAndEmailInDatabase() throws RegistrationException {
-        doReturn(new User("", "", "")).when(userRepository).findUserByUsername("username");
-        doReturn(new User("", "", "")).when(userRepository).findUserByEmail("email@email.com");
+        doReturn(null).when(userRepository).findUserByUsername("username");
+        doReturn(null).when(userRepository).findUserByEmail("email@email.com");
         RegistrationForm form = new RegistrationForm("username", "password", "email@email.com");
         Assert.assertTrue(registrationService.isUsernameAndEmaillFree(form));
     }
@@ -46,16 +46,16 @@ public class RegistrationServiceTest {
 
     @Test(expected = RegistrationException.class)
     public void isUsernameAndEmailFree_throwRegistrationException_IfEmailInDatabase() throws RegistrationException {
-        doReturn(new User("", "", "")).when(userRepository).findUserByUsername("username");
-        doReturn(null).when(userRepository).findUserByEmail("email@email.com");
+        doReturn(null).when(userRepository).findUserByUsername("username");
+        doReturn(new User("", "", "email@email.com")).when(userRepository).findUserByEmail("email@email.com");
         RegistrationForm form = new RegistrationForm("username", "password", "email@email.com");
         registrationService.isUsernameAndEmaillFree(form);
     }
 
     @Test(expected = RegistrationException.class)
     public void isUsernameAndEmailFree_throwRegistrationException_IfUsernameInDatabase() throws RegistrationException {
-        doReturn(null).when(userRepository).findUserByUsername("username");
-        doReturn(new User("", "", "")).when(userRepository).findUserByEmail("email@email.com");
+        doReturn(new User("username", "", "")).when(userRepository).findUserByUsername("username");
+        doReturn(null).when(userRepository).findUserByEmail("email@email.com");
         RegistrationForm form = new RegistrationForm("username", "password", "email@email.com");
         registrationService.isUsernameAndEmaillFree(form);
     }
