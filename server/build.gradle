@@ -26,6 +26,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-logging')
     compile group: 'com.google.guava', name: 'guava', version: '23.2-jre'
     compile group: 'org.apache.commons', name: 'commons-text', version: '1.1'
 

@@ -4,12 +4,12 @@ spring:
     store-type: hash_map
   profiles:
     active: development #Change this value to production when before building deploying artifact.
-  config:
-    location:
+  output:
+    ansi:
+      enabled: ALWAYS # Enable colors for logs.
 security:
   basic:
     enabled: false
-
 ---
 #Production settings.
 spring:
@@ -17,11 +17,16 @@ spring:
 deezer:
   redirect_url: http://api.76room.tk/signin/deezer/step2
   perms: basic_access,email,offline_access,manage_library,listening_history
+logging:
+  level.: WARNING
+  file: main.log
 
 ---
 #Development settings.
 spring:
     profiles: development
+logging:
+  level.: INFO
 deezer:
   redirect_url: http://127.0.0.1:8080/signin/deezer/step2
   perms: basic_access,email,offline_access,manage_library,listening_history
