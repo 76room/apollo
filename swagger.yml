@@ -1,0 +1,137 @@
+swagger: '2.0'
+info:
+  description: This flie describes endpoints(API) of Apollo server.
+  version: 0.0.1
+  title: Apollo
+  termsOfService: placeholder
+  contact:
+    email: arsenzhd@gamil.com
+  license:
+    name: placeholder
+    url: 'http://placeholder'
+host: placeholder.com
+schemes:
+  - http
+paths:
+  /registration:
+    post:
+      tags:
+        - registration
+      summary: Endpoint for registration
+      parameters:
+        - name: registrationForm
+          description: Registration form.
+          in: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserData'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: If sucssesfully register user.
+          schema:
+            $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          description: If registration fails.
+          schema:
+            $ref: '#/components/schemas/RegistrationException'
+  /signin/deezer/step1:
+    get:
+      tags:
+        - signin
+      summary: Signin with deezer account
+      description: The first step of signin
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '303':
+          description: Redirect to deezer login form
+        '400':
+          description: If deezer not responded
+  /signin/deezer/step2:
+    get:
+      tags:
+        - signin
+      summary: This is endpoint for deezer
+      description: Deezer will call this enpoint with one time use code(for getting token)
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: code
+          description: One time use code to get token.
+          in: query
+          required: false
+          type: string
+        - name: error
+          description: Error from deezer.
+          in: query
+          required: false
+          type: string
+        - name: redirect_uri
+          description: Redirect uri from deezer
+          in: query
+          required: true
+          type: string
+      responses:
+        '301':
+          description: redirect to /signin/deezer/step3
+        '403':
+          description: If user decide to not give us required permissions for deezer data
+  /signin/deezer/step3:
+    get:
+      tags:
+        - signin
+      summary: This endpoint is geting user information from deezer api using token
+      description: >-
+        After get this information we register or/and signin user in our
+        application
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: If sucsessfully signin user
+          schema:
+            $ref: '#/components/schemas/UserData'
+        '400':
+          description: If cant register or signin user.
+components:
+  schemas:
+    UserData:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user name.
+        password:
+          type: string
+          description: Password.
+        email:
+          type: string
+          description: email
+    RegistrationResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user name.
+        email:
+          type: string
+          description: email
+        message:
+          type: string
+          description: Message from API.
+    RegistrationException:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message with reason why fail.
