@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by Alexey on 10/9/17.
  */
 @Repository
-public interface RoomRepository extends MongoRepository<Room,Long> {
+public interface RoomRepository extends MongoRepository<Room, Long> {
     Room findRoomByTitle(String title);
 }

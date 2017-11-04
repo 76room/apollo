@@ -1,4 +1,4 @@
-package org.room.apollo.server.dto.registration;
+package org.room.apollo.server.dto.login;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -80,5 +80,14 @@ public class RegistrationForm {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationForm{" +
+                "username='" + username + '\'' +
+                ", password=XXXXXXXXX'" + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

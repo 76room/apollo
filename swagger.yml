@@ -37,7 +37,41 @@ paths:
         '400':
           description: If registration fails.
           schema:
-            $ref: '#/components/schemas/RegistrationException'
+            $ref: '#/components/schemas/ExceptionMessage'
+  /signin:
+    post:
+      tags:
+        - signin
+      summary: Endpoint for login
+      parameters:
+        - name: signinForm
+          description: Signin Form
+          in: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/SigninForm'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: If sucssesfully login user.
+          schema:
+            $ref: '#/components/schemas/SigninResponse'
+        '400':
+          description: If invalid credentials was given
+          schema:
+            $ref: '#/components/schemas/ExceptionMessage'
+  /signin/logout:
+    get:
+      tags:
+        - signin
+      summary: Endpoint for logout
+      descrition: Logout and flush session for curent user.
+      responses:
+        '200':
+          description: If sucssesfully logout user.
   /signin/deezer/step1:
     get:
       tags:
@@ -108,8 +142,7 @@ paths:
       tags:
         - music
       summary: This endpoint for getting most popular playlist and tracks
-      description: >-
-        Return list of playlists andlist of tracks
+      description: Return list of playlists andlist of tracks
       consumes:
         - application/json
       produces:
@@ -121,17 +154,23 @@ paths:
             $ref: '#/components/schemas/Chart'
         '400':
           description: Top information.
-  /playlist/{id}:
+        '403':
+          description: If un authorized user tries to access this endpoint.
+  '/playlist/{id}':
     get:
       tags:
         - music
       summary: This endpoint for getting playlist by id
-      description: >-
-        Return playlist with {id}
+      description: 'Return playlist with {id}'
       consumes:
         - application/json
       produces:
         - application/json
+      parameters: 
+        - name: id
+          in: query
+          description: Playist id.
+          type: string
       responses:
         '200':
           description: sucsess
@@ -139,13 +178,19 @@ paths:
             $ref: '#/components/schemas/Playlist'
         '400':
           description: Playlist information.
-  /track/{id}:
+        '403':
+          description: If un authorized user tries to access this endpoint.
+  '/track/{id}':
     get:
       tags:
         - music
       summary: This endpoint for getting tracks by id
-      description: >-
-        Return track by {id}
+      description: 'Return track by {id}'
+      parameters: 
+        - name: id
+          in: query
+          description: Track id.
+          type: string
       consumes:
         - application/json
       produces:
@@ -157,6 +202,8 @@ paths:
             $ref: '#/components/schemas/Track'
         '400':
           description: Track information.
+        '403':
+          description: If un authorized user tries to access this endpoint.
 components:
   schemas:
     UserData:
@@ -164,10 +211,12 @@ components:
       properties:
         username:
           type: string
-          description: The user name.
+          description: The user name. Min length 5,  Max length 16.
+          regex: [a-zA-Z0-9_.]
         password:
           type: string
-          description: Password.
+          description: Password. Min length 8, max length 32.
+          regex: [a-zA-Z0-9_]
         email:
           type: string
           description: email
@@ -183,12 +232,29 @@ components:
         message:
           type: string
           description: Message from API.
-    RegistrationException:
+    ExceptionMessage:
       type: object
       properties:
         message:
           type: string
           description: Message with reason why fail.
+    SigninForm: 
+      type: object
+      properties:
+        username: 
+          type: string
+        password:
+          type: string
+    SigninResponse: 
+      type: object
+      properties:
+        username: 
+          type: string
+        email: 
+          type: string
+        message: 
+          type: string
+          description: Signin message.
     Chart:
       type: object
       properties:
@@ -234,3 +300,4 @@ components:
         duration:
           type: integer
           format: int32
+

@@ -1,13 +1,15 @@
 package org.room.apollo.server.service;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
 import org.room.apollo.server.dto.deezer.DeezerUser;
-import org.room.apollo.server.dto.registration.RegistrationForm;
+import org.room.apollo.server.dto.login.RegistrationForm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -17,20 +19,21 @@ import java.io.IOException;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AuthorizationServiceTest {
+
+
+    @Mock
+    private RestTemplate mockTemplate;
+
+    @Mock
+    private DeezerConfiguration mockConfigs;
 
     private AuthorizationService authorizationService;
 
-    private RestTemplate mockTemplate;
-
-    private DeezerConfiguration mockConfigs;
-
     @Before
     public void reInit() {
-        mockConfigs = mock(DeezerConfiguration.class);
-        mockTemplate = mock(RestTemplate.class);
         authorizationService = new AuthorizationService(mockConfigs, mockTemplate);
     }
 
@@ -43,7 +46,7 @@ public class AuthorizationServiceTest {
         String expectedUrl = "https://connect.deezer.com/oauth/auth.php" +
                 "?app_id=mockId&redirect_uri=mockRedirect&perms=mockPerms";
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SEE_OTHER);
-        Assert.assertEquals(response.getHeaders().getLocation().toString(), expectedUrl);
+        Assert.assertEquals(expectedUrl, response.getHeaders().getLocation().toString());
     }
 
     @Test

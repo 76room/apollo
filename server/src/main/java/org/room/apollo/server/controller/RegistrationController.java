@@ -1,10 +1,11 @@
 package org.room.apollo.server.controller;
 
 import org.room.apollo.server.dto.ExceptionResponse;
-import org.room.apollo.server.dto.registration.RegistrationForm;
-import org.room.apollo.server.dto.registration.RegistrationResponse;
+import org.room.apollo.server.dto.login.RegistrationForm;
+import org.room.apollo.server.dto.login.RegistrationResponse;
 import org.room.apollo.server.entity.User;
 import org.room.apollo.server.exception.RegistrationException;
+import org.room.apollo.server.service.AuthorizationService;
 import org.room.apollo.server.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public class RegistrationController {
         try {
             registrationService.isUsernameAndEmaillFree(form);
         } catch (RegistrationException e) {
-            LOG.info("User already registred, form was: {}, exception message {} ", form, e.getMessage());
+            LOG.info("User already registred, form was: {}, exception message: {} ", form, e.getMessage());
             return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         User newUser = registrationService.createNewUser(form);

@@ -1,18 +1,16 @@
 package org.room.apollo.server.service;
 
-import com.google.common.hash.Hashing;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.room.apollo.server.dto.registration.RegistrationForm;
+import org.room.apollo.server.dto.login.RegistrationForm;
 import org.room.apollo.server.entity.User;
 import org.room.apollo.server.exception.RegistrationException;
 import org.room.apollo.server.repository.UserRepository;
-
-import java.nio.charset.StandardCharsets;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.Mockito.doReturn;
 
@@ -24,9 +22,12 @@ public class RegistrationServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder mockEncoder;
+
     @Before
     public void reInit() throws Exception {
-        registrationService = new RegistrationService(userRepository);
+        registrationService = new RegistrationService(userRepository, mockEncoder);
     }
 
     @Test
@@ -35,13 +36,6 @@ public class RegistrationServiceTest {
         doReturn(null).when(userRepository).findUserByEmail("email@email.com");
         RegistrationForm form = new RegistrationForm("username", "password", "email@email.com");
         Assert.assertTrue(registrationService.isUsernameAndEmaillFree(form));
-    }
-
-    @Test
-    public void hashPassword_IsHashingPasswordBySHA256() {
-        String expected = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f";
-        String result = registrationService.hashPassword("password123");
-        Assert.assertTrue(expected.equals(result));
     }
 
     @Test(expected = RegistrationException.class)

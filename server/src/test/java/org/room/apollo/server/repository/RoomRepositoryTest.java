@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.room.apollo.server.entity.Room;
 import org.room.apollo.server.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNull;
  * Created by Alexey on 10/9/17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
 public class RoomRepositoryTest {
 
     @Autowired
@@ -37,31 +37,31 @@ public class RoomRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        User user1 = new User("login",PASSWORD,TEST_EMAIL_1);
-        User user2 = new User("name",PASSWORD,TEST_EMAIL_2);
+        User user1 = new User("login", PASSWORD, TEST_EMAIL_1);
+        User user2 = new User("name", PASSWORD, TEST_EMAIL_2);
         users.add(user1);
         users.add(user2);
         userRepository.save(user1);
         userRepository.save(user2);
-        Room room = new Room("test", users , null);
+        Room room = new Room("test", users, null);
         assertNull(room.getId());//null before save
         mongoRepository.save(room);
         assertNotNull(room.getId());
     }
 
     @Test
-    public void testFetchData(){
+    public void testFetchData() {
         /*Test data retrieval*/
         Room room = mongoRepository.findRoomByTitle("test");
         assertNotNull(room);
-        assertEquals(room.getUsers(),users);
+        assertEquals(room.getUsers(), users);
         /*Get all users, list should only have two*/
         List<Room> rooms = mongoRepository.findAll();
         assertEquals(rooms.size(), 1);
     }
 
     @Test
-    public void testDataUpdate(){
+    public void testDataUpdate() {
         /*Test update*/
         String newName = "updated";
         Room first = mongoRepository.findRoomByTitle("test");

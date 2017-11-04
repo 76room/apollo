@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.room.apollo.server.dto.deezer.PlaylistD;
-import org.room.apollo.server.dto.deezer.TrackD;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +17,7 @@ public class PlaylistDeserializer extends JsonDeserializer<List<PlaylistD>> {
         return tracks.data;
     }
 
-    private static class Playlists{
+    private static class Playlists {
         public List<PlaylistD> data;
         public String checksum;
     }

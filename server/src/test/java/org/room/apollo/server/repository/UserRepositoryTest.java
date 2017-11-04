@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.room.apollo.server.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNull;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
 public class UserRepositoryTest {
 
     @Autowired
@@ -32,8 +32,8 @@ public class UserRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        User user1 = new User("login",PASSWORD,TEST_EMAIL_1);
-        User user2 = new User("name",PASSWORD,TEST_EMAIL_2);
+        User user1 = new User("login", PASSWORD, TEST_EMAIL_1);
+        User user2 = new User("name", PASSWORD, TEST_EMAIL_2);
         assertNull(user1.getId());//null before save
         assertNull(user2.getId());//null before save
         mongoRepository.save(user1);
@@ -43,18 +43,18 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testFetchData(){
+    public void testFetchData() {
         /*Test data retrieval*/
         User user = mongoRepository.findUserByEmail(TEST_EMAIL_1);
         assertNotNull(user);
-        assertEquals(user.getUsername(),"login");
+        assertEquals(user.getUsername(), "login");
         /*Get all users, list should only have two*/
         List<User> users = mongoRepository.findAll();
         assertEquals(users.size(), 2);
     }
 
     @Test
-    public void testDataUpdate(){
+    public void testDataUpdate() {
         /*Test update*/
         String newName = "updated";
         User user1 = mongoRepository.findUserByEmail(TEST_EMAIL_1);
