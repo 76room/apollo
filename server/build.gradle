@@ -22,7 +22,7 @@ repositories {
     mavenCentral()
 }
 test {
-    maxParallelForks = 2
+    maxParallelForks = 1
 }
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
