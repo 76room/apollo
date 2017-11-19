@@ -8,8 +8,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.dto.deezer.DeezerToken;
-import org.room.apollo.server.dto.deezer.DeezerUser;
 import org.room.apollo.server.dto.login.RegistrationForm;
+import org.room.apollo.server.dto.deezer.UserD;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -72,9 +72,9 @@ public class AuthorizationServiceTest {
 
     @Test
     public void getUserDataFromDeezerApi_IsReturningRegistrationForm_WithGeneratedPassword() {
-        doReturn(new DeezerUser("username", "email"))
+        doReturn(new UserD("username", "email"))
                 .when(mockTemplate)
-                .getForObject(anyString(), eq(DeezerUser.class));
+                .getForObject(anyString(), eq(UserD.class));
         RegistrationForm userData = authorizationService.getUserDataFromDeezerApi(new DeezerToken("token", 0));
         Assert.assertEquals("username", userData.getUsername());
         Assert.assertEquals("email", userData.getEmail());

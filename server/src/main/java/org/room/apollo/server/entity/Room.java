@@ -4,25 +4,40 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by Alexey on 10/9/17.
  */
 @Document(collection = "rooms")
 public class Room {
+    public enum Status{
+        PUBLIC, PRIVATE
+    }
+
     @Id
     private String id;
     private String title;
+    private String description;
+    private Status status;
+    private User admin;
     @DBRef
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
+//    @DBRef
+//    private List<User> invitedUsers = new ArrayList<>();
     @DBRef
-    private List<Track> playlist;
+    private Queue<Track> playlist;
 
-    public Room(String title, List<User> users, List<Track> playlist) {
+    public Room(){}
+
+    public Room(String title, String description, Status status, User admin, List<User> users) {
         this.title = title;
+        this.description = description;
+        this.status = status;
+        this.admin = admin;
         this.users = users;
-        this.playlist = playlist;
     }
 
     public String getId() {
@@ -41,6 +56,30 @@ public class Room {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+//    public List<User> getInvitedUsers() {
+//        return invitedUsers;
+//    }
+//
+//    public void setInvitedUsers(List<User> invitedUsers) {
+//        this.invitedUsers = invitedUsers;
+//    }
+
     public List<User> getUsers() {
         return users;
     }
@@ -49,12 +88,21 @@ public class Room {
         this.users = users;
     }
 
-    public List<Track> getPlaylist() {
+    public Queue<Track> getPlaylist() {
         return playlist;
     }
 
-    public void setPlaylist(List<Track> playlist) {
+    public void setPlaylist(Queue<Track> playlist) {
         this.playlist = playlist;
+    }
+
+    public User getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(User admin) {
+        users.add(admin);
+        this.admin = admin;
     }
 
     @Override
@@ -62,7 +110,11 @@ public class Room {
         return "Room{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", admin=" + admin +
                 ", users=" + users +
+//                ", invitedUsers=" + invitedUsers +
                 ", playlist=" + playlist +
                 '}';
     }

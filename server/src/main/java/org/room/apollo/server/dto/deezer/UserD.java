@@ -1,14 +1,14 @@
 package org.room.apollo.server.dto.deezer;
 
-public class DeezerUser {
+public class UserD {
 
     private String name;
     private String email;
 
-    public DeezerUser() {
+    public UserD() {
     }
 
-    public DeezerUser(String name, String email) {
+    public UserD(String name, String email) {
         this.name = name;
         this.email = email;
     }

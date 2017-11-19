@@ -4,10 +4,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.room.apollo.server.configuration.DeezerConfiguration;
 import org.room.apollo.server.controller.RegistrationController;
 import org.room.apollo.server.dto.deezer.DeezerToken;
-import org.room.apollo.server.dto.deezer.DeezerUser;
 import org.room.apollo.server.dto.login.RegistrationForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.room.apollo.server.dto.deezer.UserD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -90,7 +90,7 @@ public class AuthorizationService {
                 "?access_token=" + token.getAccessToken() +
                 "&output=json";
         LOG.debug("Url for user data: ", url);
-        DeezerUser user = template.getForObject(url, DeezerUser.class);
+        UserD user = template.getForObject(url, UserD.class);
         LOG.debug("User data: {} , from url: ", user, url);
         return new RegistrationForm(user.getName(), generatePassword(GENERATED_PASSWORD_LENGTH), user.getEmail());
     }

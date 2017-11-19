@@ -42,7 +42,7 @@ public class RoomRepositoryTest {
         users.add(user2);
         userRepository.save(user1);
         userRepository.save(user2);
-        Room room = new Room("test", users, null);
+        Room room = new Room("test", null, Room.Status.PUBLIC, user1, users);
         assertNull(room.getId());//null before save
         mongoRepository.save(room);
         assertNotNull(room.getId());

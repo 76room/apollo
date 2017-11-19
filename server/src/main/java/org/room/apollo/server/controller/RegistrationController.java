@@ -39,7 +39,7 @@ public class RegistrationController {
      * @return Registred User details or Exception message.
      */
     @PostMapping
-    public ResponseEntity<Object> registreNewUser(@Valid RegistrationForm form) {
+    public ResponseEntity<Object> registerNewUser(@Valid RegistrationForm form) {
         LOG.info("Processing new registration form: {}", form);
         try {
             registrationService.isUsernameAndEmaillFree(form);
