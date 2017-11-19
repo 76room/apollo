@@ -50,7 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService)
                 .authorizeRequests()
-                .antMatchers("/signin/**", "/registration/**", "/test/**", "/").permitAll()
+                .antMatchers("/signin/**", "/registration/**", "/test/**", "/",
+                        "/swagger*").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin().usernameParameter("username").passwordParameter("password")
