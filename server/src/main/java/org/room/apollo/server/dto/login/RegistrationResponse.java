@@ -1,4 +1,4 @@
-package org.room.apollo.server.dto.registration;
+package org.room.apollo.server.dto.login;
 
 public class RegistrationResponse {
 
@@ -39,5 +39,14 @@ public class RegistrationResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationResponse{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

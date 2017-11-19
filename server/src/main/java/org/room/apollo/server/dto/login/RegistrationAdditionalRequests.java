@@ -1,4 +1,4 @@
-package org.room.apollo.server.dto.registration;
+package org.room.apollo.server.dto.login;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

@@ -9,7 +9,7 @@ spring:
       enabled: ALWAYS # Enable colors for logs.
 security:
   basic:
-    enabled: false
+    enabled: true
 ---
 #Production settings.
 spring:
@@ -18,7 +18,11 @@ deezer:
   redirect_url: http://api.76room.tk/signin/deezer/step2
   perms: basic_access,email,offline_access,manage_library,listening_history
 logging:
-  level.: WARNING
+  level:
+    org.room.apollo.server: INFO
+    spring:
+      web: INFO
+    hibernate: WARNING
   file: main.log
 
 ---
@@ -26,7 +30,11 @@ logging:
 spring:
     profiles: development
 logging:
-  level.: INFO
+  level:
+    org.room.apollo.server: DEBUG
+    spring:
+      web: DEBUG
+    hibernate: INFO
 deezer:
   redirect_url: http://127.0.0.1:8080/signin/deezer/step2
   perms: basic_access,email,offline_access,manage_library,listening_history

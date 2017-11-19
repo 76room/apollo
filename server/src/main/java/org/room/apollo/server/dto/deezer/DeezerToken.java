@@ -59,4 +59,12 @@ public class DeezerToken {
         result = 31 * result + (int) (expires ^ (expires >>> 32));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "DeezerToken{" +
+                "accessToken='" + accessToken + '\'' +
+                ", expires=" + expires +
+                '}';
+    }
 }

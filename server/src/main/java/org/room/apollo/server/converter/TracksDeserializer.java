@@ -17,7 +17,7 @@ public class TracksDeserializer extends JsonDeserializer<List<TrackD>> {
         return tracks.data;
     }
 
-    private static class Tracks{
+    private static class Tracks {
         public List<TrackD> data;
         public String checksum;
     }

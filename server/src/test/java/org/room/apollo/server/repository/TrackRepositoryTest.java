@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.room.apollo.server.entity.Track;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNull;
  * Created by Alexey on 10/9/17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
 public class TrackRepositoryTest {
 
     @Autowired
@@ -27,18 +27,18 @@ public class TrackRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        Track track = new Track("track1","http..");
+        Track track = new Track("track1", "http..");
         assertNull(track.getId());//null before save
         mongoRepository.save(track);
         assertNotNull(track.getId());
     }
 
     @Test
-    public void testFetchData(){
+    public void testFetchData() {
         /*Test data retrieval*/
         Track obj = mongoRepository.findTrackByTitle("track1");
         assertNotNull(obj);
-        assertEquals(obj.getStreamingUrl(),"http..");
+        assertEquals(obj.getStreamingUrl(), "http..");
         /*Get all users, list should only have two*/
         List<Track> rooms = mongoRepository.findAll();
         assertEquals(rooms.size(), 1);
